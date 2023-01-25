@@ -25,40 +25,6 @@ class MyStatefulWidget extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  int _selectedIndex = 0;
-
-  List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Copyright 2022 SODA  All rights reserved.',
-      style: GoogleFonts.roboto(fontSize: 14,fontWeight: FontWeight.w500,color: Color(0xFF99000000)),
-
-    ),
-    Text(
-      'Copyright 2022 SODA  All rights reserved.',
-      style: GoogleFonts.roboto(fontSize: 14,fontWeight: FontWeight.w500,color: Color(0xFF99000000)),
-
-    ),
-    Text(
-      'Copyright 2022 SODA  All rights reserved.',
-      style: GoogleFonts.roboto(fontSize: 14,fontWeight: FontWeight.w500,color: Color(0xFF99000000)),
-
-    ),
-    Text(
-      'Copyright 2022 SODA  All rights reserved.',
-      style: GoogleFonts.roboto(fontSize: 14,fontWeight: FontWeight.w500,color: Color(0xFF99000000)),
-  ),
-    ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
