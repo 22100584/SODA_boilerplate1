@@ -29,63 +29,35 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   bool light = true;
-  PersonSex? _character = PersonSex.Male;
+
   bool isCheckedDesigner =false;
   bool isCheckedDeveloper =false;
-  DateTime? _selectedDate;
 
-  void _presentDatePicker() {
-    // showDatePicker is a pre-made funtion of Flutter
-    showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2001),
-        lastDate: DateTime(2030))
-        .then((pickedDate) {
-      // Check if no date is selected
-      if (pickedDate == null) {
-        return;
-      }
-      setState(() {
-        // using state so that the UI will be rerendered when date is picked
-        _selectedDate = pickedDate;
-      });
-    });
-  }
+
+
 
   @override
   Widget build(BuildContext context) {
 
-    final MaterialStateProperty<Color?> trackColor =
-    MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-        // Track color when the switch is selected.
-        if (states.contains(MaterialState.selected)) {
-          return Color(0xFF4B6EB1);
-        }
-        return Color(0xFF979797);
-      },
-    );
-
     return Scaffold(
+
+      resizeToAvoidBottomInset : false,
       floatingActionButton: Padding(
         padding: EdgeInsets.only(bottom: 50),
-        child: FloatingActionButton(
-          onPressed: () => showDialog<String>(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-              title: Text('+ 버튼을 누르셨습니다.',style: GoogleFonts.roboto(fontSize: 16,fontWeight: FontWeight.w400,color: Color(0xFF99000000)),),
-
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () => Navigator.pop(context, 'OK'),
-                  child: Text('확인',style: GoogleFonts.roboto(fontSize: 14,fontWeight: FontWeight.w500,color:Color(0xFF182949)),),
-                ),
-              ],
-            ),
+        child:Tooltip(
+          message: 'Tooltip',
+          preferBelow: false,
+          textStyle: GoogleFonts.roboto(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            color: Colors.white,
           ),
-          backgroundColor: Color(0xFF182949),
-          child: const Icon(Icons.add,color: Colors.white,),
+          showDuration: const Duration(seconds: 3),
+          child: FloatingActionButton(
+            onPressed: (){},
+            backgroundColor: Color(0xFF182949),
+            child: const Icon(Icons.add,color: Colors.white,),
+          ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -93,32 +65,30 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         backgroundColor: Color(0xFF182949),
         title: Text('SODA',style: GoogleFonts.roboto(fontSize: 20,fontWeight: FontWeight.w500),),
         actions: [
-          Container(
-            padding: EdgeInsets.all(13),
-            child: Switch(
-              value: light,
-              trackColor: trackColor,
-              thumbColor: const MaterialStatePropertyAll<Color>(Colors.white),
-              onChanged: (bool value) {
-                setState(() {
-                  light = value;
-                  if(value==true){ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      duration: const Duration(milliseconds: 2000),
-                      behavior: SnackBarBehavior.values[0]
-,                      content: Text('switch를 ON 하였습니다.',style: GoogleFonts.roboto(fontSize: 14,fontWeight: FontWeight.w400,color: Colors.white,)),
-                      action: SnackBarAction(
-                        textColor: Color(0xFFF99999),
-                        label: 'OK',
-
-                      onPressed: () {},
-                      ),
-                    ),
-                  );}
-                });
-              },
-            ),
+      Container(
+      padding: EdgeInsets.all(5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children:[
+          IconButton(
+            icon: const Icon(Icons.notifications),
+            color: Colors.white,
+            onPressed: (){},
           ),
+
+          IconButton(
+            icon: const Icon(Icons.share),
+            color: Colors.white,
+            onPressed: (){},
+          ),
+          IconButton(
+            icon: const Icon(Icons.search),
+            color: Colors.white,
+            onPressed: (){},
+          ),
+    ]
+    ),
+    ),
         ],
       ),
       drawer: Drawer(
@@ -143,137 +113,125 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           ],
         ),
       ),
-      body: Column(
+
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0,15,0,15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text('DAY 8',style: GoogleFonts.roboto(fontSize: 30,fontWeight: FontWeight.w500),),
+                  ],
+                ),
+              ),
+              Card(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(20),
-              child: TextField(
-
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Name',
+              padding: const EdgeInsets.all(11.0),
+              child: ListTile(
+                title: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 2, 10),
+                  child: Text('Boilerplate 4',style: GoogleFonts.roboto(fontSize: 20,fontWeight: FontWeight.w500),),
+                ),
+                subtitle: Padding(
+                  padding: const EdgeInsets.fromLTRB(3,10, 3, 10),
+                  child: Text('어느덧 SODA 캠프 8일차가 되었네요!\n여기까지 달려오시느라 수고 많으셨어요 :)\n\n아래 있는 CANCEL과 SUBMIT은 버튼입니다 !!',
+                    style: GoogleFonts.roboto(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xFF99000000)),),
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 40),
-                    child: Row(
-                      children: [
-                        Radio<PersonSex>(
-                          value: PersonSex.Male,
-                          groupValue: _character,
-                          onChanged: (PersonSex? value) {
-                            setState(() {
-                              _character = value;
-                            });
-                          },
-                        ),
-                        Text('Male',style: GoogleFonts.roboto(fontSize: 14,fontWeight: FontWeight.w500,color: Colors.black)),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Radio<PersonSex>(
-                        value: PersonSex.Female,
-                        groupValue: _character,
-                        onChanged: (PersonSex? value) {
-                          setState(() {
-                            _character = value;
-                          });
-                        },
-                      ),
-                      Text('Female',style: GoogleFonts.roboto(fontSize: 14,fontWeight: FontWeight.w500,color: Colors.black)),
-                    ],
-                  ),
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                TextButton(
+                  child: Text('CANCEL',style: GoogleFonts.roboto(fontSize: 14,fontWeight: FontWeight.w500,color: Color(0xFF4B6EB1)),),
+                  onPressed: () {/* ... */},
+                ),
+                const SizedBox(width: 2),
+                TextButton(
+                  child: Text('SUBMIT',style: GoogleFonts.roboto(fontSize: 14,fontWeight: FontWeight.w500,color: Color(0xFF4B6EB1)),),
+                  onPressed: () {/* ... */},
+                ),
+                const SizedBox(width: 5),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 17),
-                    child: Row(
-                      children: [
-                        Checkbox(
-                          checkColor: Colors.white,
-                          value: isCheckedDesigner,
-                          onChanged: (bool? value) {
-                            setState(() {
-                              isCheckedDesigner = value!;
-                            });
-                          },
-                        ),
-                        Text('Designer',style: GoogleFonts.roboto(fontSize: 14,fontWeight: FontWeight.w500,color: Colors.black)),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Checkbox(
-                        checkColor: Colors.white,
-                        value: isCheckedDeveloper,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            isCheckedDeveloper = value!;
-                          });
-                        },
-                      ),
-                      Text('Developer',style: GoogleFonts.roboto(fontSize: 14,fontWeight: FontWeight.w500,color: Colors.black)),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-
-            Expanded(
-                child:Padding(
-              padding : EdgeInsets.fromLTRB(5, 10, 10, 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 13, 25,0 ),
-                    child: Text('버튼을 눌러 날짜를 선택해주세요',style: GoogleFonts.roboto(fontSize: 14,fontWeight: FontWeight.w500,color: Colors.black)),
-                  ),
-
-                  OutlinedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll<Color>(Colors.white),
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0))),
-                      ),
-                      onPressed: _presentDatePicker,
-                      child:Text('SELECT DATE',style: GoogleFonts.roboto(fontSize: 14,fontWeight: FontWeight.w500,color: Color(0xFF182949)),),
-                  ),
-
-                ],
-              ),
-            ),
-            ),
-
-            Divider(
-              color: Color(0xFF14212121),
-              thickness: 1,
-              indent: 13,
-              endIndent: 13,
-            ),
-            Padding(
-              padding : EdgeInsets.fromLTRB(13, 5, 13, 13),
-              child: Text('Copyright 2022 SODA All rights reserved.',style: GoogleFonts.roboto(fontSize: 14,fontWeight: FontWeight.w500,color: Color(0xFF99000000)),),
-            ),
-
-
           ],
         ),
+        ),
+              Row(
+                 mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Wrap(
 
+                    spacing: 10,
+                    direction: Axis.horizontal,
+                    children: choiceChips(),
+
+
+                  ),
+                ],
+              ),
+
+              Expanded(child: SizedBox(),),
+              Divider(
+                color: Color(0xFF14212121),
+                thickness: 1,
+                // indent: 13,
+                // endIndent: 13,
+              ),
+              Padding(
+                padding : EdgeInsets.fromLTRB(0, 5, 0, 13),
+                child: Text('Copyright 2022 SODA All rights reserved.',style: GoogleFonts.roboto(fontSize: 14,fontWeight: FontWeight.w500,color: Color(0xFF99000000)),),
+              ),
+            ],
+
+        ),
+      ),
       );
 
   }
+  int? _selectedIndex;
+  final List<Data> _choiceChipsList = [
+    Data("SODA", Color(0xFF14212121)),
+    Data("CAMP",  Color(0xFF14212121)),
+    Data("FUN",  Color(0xFF14212121)),
+    Data("FLUTTER",  Color(0xFF14212121)),
+  ];
+  List<Widget> choiceChips() {
+    List<Widget> chips = [];
+    for (int i = 0; i < _choiceChipsList.length; i++) {
+      Widget item = Padding(
+        padding: const EdgeInsets.only(left: 0, right: 0),
+        child: ChoiceChip(
+          label: Text(_choiceChipsList[i].label),
+          labelStyle: GoogleFonts.roboto(fontSize: 14,fontWeight: FontWeight.w500,color: _selectedIndex==i ? Colors.white : Colors.black,),
+          backgroundColor: _choiceChipsList[i].color,
+          selected: _selectedIndex == i,
+          selectedColor: Color(0xFF182949),
+          onSelected: (bool value) {
+            setState(() {
+              _selectedIndex = i;
+
+
+            });
+          },
+        ),
+      );
+      chips.add(item);
+    }
+    return chips;
+  }
 }
+class Data {
+  String label;
+  Color color;
+
+  Data(this.label, this.color);
+}
+
+
